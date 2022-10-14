@@ -133,6 +133,10 @@ const TransformController = ()=>{
     for(const e of select){
       e.classList.remove('select')
     }
+    const circle = document.getElementsByClassName('circle')
+    for(const e of circle){
+      e.classList.remove('circle')
+    }
   }
 
   return (<>{select === undefined ? null:

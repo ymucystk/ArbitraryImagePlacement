@@ -67,7 +67,7 @@ class App extends Component {
     return (
       <div>
         <Controller props={{select}}/>
-        <MovingImage titleimglist={titleimglist} style={{width:'230px'}}/>
+        <MovingImage titleimglist={titleimglist} style={{width:230}}/>
       </div>
     );
   }
@@ -93,6 +93,7 @@ const MovingElement = (props)=>{
   const {className, imgsrc, style, title} = props
   let dragged = {target:undefined,x:0,y:0,degree:0,rotate:0,scaleX:1,scaleY:1}
   const imgRef = React.useRef(undefined)
+  const divRef = React.useRef(undefined)
 
   const mouseup = event=>{
     event.preventDefault()
@@ -111,6 +112,8 @@ const MovingElement = (props)=>{
   React.useEffect(()=>{
     if(imgRef.current !== undefined){
       imgRef.current.ondragstart = ()=>false
+      const parent = imgRef.current.parentNode
+      const circle = parent.lastElementChild
       imgRef.current.addEventListener('mousedown',event=>{
         const targetclassName = event.target.className
         if(targetclassName.includes(className)){
@@ -153,14 +156,19 @@ const MovingElement = (props)=>{
           e.classList.remove('select')
         }
         dragged.target.classList.add('select')
+        const circleDiv = document.getElementsByClassName('circle')
+        for(const e of circleDiv){
+          e.classList.remove('circle')
+        }
+        circle.classList.add('circle')
       })
       imgRef.current.addEventListener('mousemove', event=>{
         event.preventDefault()
         if(dragged.target !== undefined){
           const drag = document.getElementsByClassName('drag')[0]
           if(drag){
-            dragged.target.style.top = event.pageY - dragged.y + "px";
-            dragged.target.style.left = event.pageX - dragged.x + "px";
+            dragged.target.style.top = `${event.pageY - dragged.y}px`;
+            dragged.target.style.left = `${event.pageX - dragged.x}px`;
           }
           const rotate = document.getElementsByClassName('rotate')[0]
           if(rotate){
@@ -170,6 +178,10 @@ const MovingElement = (props)=>{
               const rotate = (dragged.rotate - (dragged.degree - degree)) % 360
               dragged.target.style.transform = `rotate(${rotate}deg) scaleX(${dragged.scaleX})  scaleY(${dragged.scaleY})`;
             }
+          }
+          if(circle.className === 'circle'){
+            circle.style.top = `${event.pageY - dragged.y + (style.width/4)}px`;
+            circle.style.left = `${event.pageX - dragged.x + (style.width/2)}px`;
           }
         }
       })
@@ -183,7 +195,10 @@ const MovingElement = (props)=>{
   },[imgRef])
 
   return(
-    <div><img draggable={false} ref={imgRef} className={className} src={imgsrc} style={style} title={title}/></div>
+    <div>
+      <img draggable={false} ref={imgRef} className={className} src={imgsrc} style={style} title={title}/>
+      <div ref={divRef} style={{top:(style.top+(style.width/4)),left:(style.left+(style.width/2))}}></div>
+    </div>
   )
 }
 MovingElement.defaultProps = {

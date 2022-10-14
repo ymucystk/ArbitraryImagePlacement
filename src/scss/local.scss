@@ -137,5 +137,12 @@ div.imagecanvas {
 }
 .select {
   z-index: 1001;
-  filter: sepia(0.75);
+}
+.circle {
+  position: absolute;
+  z-index: 1002;
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	background: yellow;
 }
