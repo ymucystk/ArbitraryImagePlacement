@@ -1,81 +1,98 @@
 import React, { Component, useState } from 'react';
 import Controller from '../components';
 
-const titleimglist = [
-  {imgpath:'../../data/cameraA1_10_0000.png',style:{top:300,left:1360}},
-  {imgpath:'../../data/cameraA2_10_0000.png',style:{top:300,left:1210}},
-  {imgpath:'../../data/cameraA3_10_0000.png',style:{top:300,left: 1060}},
-  {imgpath:'../../data/cameraA4_10_0000.png',style:{top:400,left:1360}},
-  {imgpath:'../../data/cameraA5_10_0000.png',style:{top:400,left:1210}},
-  {imgpath:'../../data/cameraA6_10_0000.png',style:{top:400,left:1060}},
-  {imgpath:'../../data/cameraA7_10_0000.png',style:{top:500,left:1410}},
-  {imgpath:'../../data/cameraA8_10_0000.png',style:{top:500,left:1310}},
-  {imgpath:'../../data/cameraA9_10_0000.png',style:{top:500,left:1210}},
-  {imgpath:'../../data/cameraA10_10_0000.png',style:{top:500,left:1110}},
-  {imgpath:'../../data/cameraA11_10_0000.png',style:{top:500,left:1010}},
-  {imgpath:'../../data/cameraB1_10_0000.png',style:{top:600,left:1360}},
-  {imgpath:'../../data/cameraB2_10_0000.png',style:{top:600,left:1260}},
-  {imgpath:'../../data/cameraB3_10_0000.png',style:{top:600,left:1160}},
-  {imgpath:'../../data/cameraB4_10_0000.png',style:{top:600,left:1060}},
-  {imgpath:'../../data/cameraB5_10_0000.png',style:{top:600,left:960}},
-  {imgpath:'../../data/cameraB6_10_0000.png',style:{top:700,left:1360}},
-  {imgpath:'../../data/cameraB7_10_0000.png',style:{top:700,left:1210}},
-  {imgpath:'../../data/cameraB8_10_0000.png',style:{top:700,left:1060}},
-  {imgpath:'../../data/cameraB9_10_0000.png',style:{top:800,left:1360}},
-  {imgpath:'../../data/cameraB10_10_0000.png',style:{top:800,left:1210}},
-  {imgpath:'../../data/cameraB11_10_0000.png',style:{top:800,left:1060}},
-  {imgpath:'../../data/cameraC1_10_0000.png',style:{top:300,left:910}},
-  {imgpath:'../../data/cameraC2_10_0000.png',style:{top:300,left:690}},
-  {imgpath:'../../data/cameraC3_10_0000.png',style:{top:400,left:910}},
-  {imgpath:'../../data/cameraC4_10_0000.png',style:{top:400,left:690}},
-  {imgpath:'../../data/cameraC5_10_0000.png',style:{top:500,left:910}},
-  {imgpath:'../../data/cameraC6_10_0000.png',style:{top:500,left:690}},
-  {imgpath:'../../data/cameraC7_10_0000.png',style:{top:500,left:570}},
-  {imgpath:'../../data/cameraC8_10_0000.png',style:{top:300,left:630}},
-  {imgpath:'../../data/cameraD1_10_0000.png',style:{top:600,left:760}},
-  {imgpath:'../../data/cameraD2_10_0000.png',style:{top:600,left:660}},
-  {imgpath:'../../data/cameraD3_10_0000.png',style:{top:600,left:560}},
-  {imgpath:'../../data/cameraD4_10_0000.png',style:{top:600,left:460}},
-  {imgpath:'../../data/cameraD5_10_0000.png',style:{top:700,left:660}},
-  {imgpath:'../../data/cameraD6_10_0000.png',style:{top:700,left:560}},
-  {imgpath:'../../data/cameraD7_10_0000.png',style:{top:800,left:660}},
-  {imgpath:'../../data/cameraD8_10_0000.png',style:{top:800,left:560}},
-  {imgpath:'../../data/cameraE1_10_0000.png',style:{top:300,left:460}},
-  {imgpath:'../../data/cameraE2_10_0000.png',style:{top:300,left:230}},
-  {imgpath:'../../data/cameraE3_10_0000.png',style:{top:400,left:460}},
-  {imgpath:'../../data/cameraE4_10_0000.png',style:{top:400,left:230}},
-  {imgpath:'../../data/cameraE5_10_0000.png',style:{top:500,left:460}},
-  {imgpath:'../../data/cameraE6_10_0000.png',style:{top:500,left:230}},
-  {imgpath:'../../data/cameraE7_10_0000.png',style:{top:500,left:0}},
-  {imgpath:'../../data/cameraE10_10_0000.png',style:{top:400,left:0}},
-  {imgpath:'../../data/cameraF1_10_0000.png',style:{top:100,left:230}},
-  {imgpath:'../../data/cameraF2_10_0000.png',style:{top:100,left:0}},
-  {imgpath:'../../data/cameraF3_10_0000.png',style:{top:200,left:230}},
-  {imgpath:'../../data/cameraF4_10_0000.png',style:{top:200,left:0}},
-  {imgpath:'../../data/cameraF5_10_0000.png',style:{top:0,left:230}},
-  {imgpath:'../../data/cameraG1_10_0000.png',style:{top:150,left:1370}},
-  {imgpath:'../../data/cameraG2_10_0000.png',style:{top:150,left:1140}},
-  {imgpath:'../../data/cameraG3_10_0000.png',style:{top:150,left:910}},
-  {imgpath:'../../data/cameraG4_10_0000.png',style:{top:150,left:690}},
-  {imgpath:'../../data/cameraG5_10_0000.png',style:{top:150,left:460}},
+const defaultimglist = [
+  {imgpath:'data/cameraA1_10_0000.png',style:{top:300,left:1360}},
+  {imgpath:'data/cameraA2_10_0000.png',style:{top:300,left:1210}},
+  {imgpath:'data/cameraA3_10_0000.png',style:{top:300,left: 1060}},
+  {imgpath:'data/cameraA4_10_0000.png',style:{top:400,left:1360}},
+  {imgpath:'data/cameraA5_10_0000.png',style:{top:400,left:1210}},
+  {imgpath:'data/cameraA6_10_0000.png',style:{top:400,left:1060}},
+  {imgpath:'data/cameraA7_10_0000.png',style:{top:500,left:1410}},
+  {imgpath:'data/cameraA8_10_0000.png',style:{top:500,left:1310}},
+  {imgpath:'data/cameraA9_10_0000.png',style:{top:500,left:1210}},
+  {imgpath:'data/cameraA10_10_0000.png',style:{top:500,left:1110}},
+  {imgpath:'data/cameraA11_10_0000.png',style:{top:500,left:1010}},
+  {imgpath:'data/cameraB1_10_0000.png',style:{top:600,left:1360}},
+  {imgpath:'data/cameraB2_10_0000.png',style:{top:600,left:1260}},
+  {imgpath:'data/cameraB3_10_0000.png',style:{top:600,left:1160}},
+  {imgpath:'data/cameraB4_10_0000.png',style:{top:600,left:1060}},
+  {imgpath:'data/cameraB5_10_0000.png',style:{top:600,left:960}},
+  {imgpath:'data/cameraB6_10_0000.png',style:{top:700,left:1360}},
+  {imgpath:'data/cameraB7_10_0000.png',style:{top:700,left:1210}},
+  {imgpath:'data/cameraB8_10_0000.png',style:{top:700,left:1060}},
+  {imgpath:'data/cameraB9_10_0000.png',style:{top:800,left:1360}},
+  {imgpath:'data/cameraB10_10_0000.png',style:{top:800,left:1210}},
+  {imgpath:'data/cameraB11_10_0000.png',style:{top:800,left:1060}},
+  {imgpath:'data/cameraC1_10_0000.png',style:{top:300,left:910}},
+  {imgpath:'data/cameraC2_10_0000.png',style:{top:300,left:690}},
+  {imgpath:'data/cameraC3_10_0000.png',style:{top:400,left:910}},
+  {imgpath:'data/cameraC4_10_0000.png',style:{top:400,left:690}},
+  {imgpath:'data/cameraC5_10_0000.png',style:{top:500,left:910}},
+  {imgpath:'data/cameraC6_10_0000.png',style:{top:500,left:690}},
+  {imgpath:'data/cameraC7_10_0000.png',style:{top:500,left:570}},
+  {imgpath:'data/cameraC8_10_0000.png',style:{top:300,left:630}},
+  {imgpath:'data/cameraD1_10_0000.png',style:{top:600,left:760}},
+  {imgpath:'data/cameraD2_10_0000.png',style:{top:600,left:660}},
+  {imgpath:'data/cameraD3_10_0000.png',style:{top:600,left:560}},
+  {imgpath:'data/cameraD4_10_0000.png',style:{top:600,left:460}},
+  {imgpath:'data/cameraD5_10_0000.png',style:{top:700,left:660}},
+  {imgpath:'data/cameraD6_10_0000.png',style:{top:700,left:560}},
+  {imgpath:'data/cameraD7_10_0000.png',style:{top:800,left:660}},
+  {imgpath:'data/cameraD8_10_0000.png',style:{top:800,left:560}},
+  {imgpath:'data/cameraE1_10_0000.png',style:{top:300,left:460}},
+  {imgpath:'data/cameraE2_10_0000.png',style:{top:300,left:230}},
+  {imgpath:'data/cameraE3_10_0000.png',style:{top:400,left:460}},
+  {imgpath:'data/cameraE4_10_0000.png',style:{top:400,left:230}},
+  {imgpath:'data/cameraE5_10_0000.png',style:{top:500,left:460}},
+  {imgpath:'data/cameraE6_10_0000.png',style:{top:500,left:230}},
+  {imgpath:'data/cameraE7_10_0000.png',style:{top:500,left:0}},
+  {imgpath:'data/cameraE10_10_0000.png',style:{top:400,left:0}},
+  {imgpath:'data/cameraF1_10_0000.png',style:{top:100,left:230}},
+  {imgpath:'data/cameraF2_10_0000.png',style:{top:100,left:0}},
+  {imgpath:'data/cameraF3_10_0000.png',style:{top:200,left:230}},
+  {imgpath:'data/cameraF4_10_0000.png',style:{top:200,left:0}},
+  {imgpath:'data/cameraF5_10_0000.png',style:{top:0,left:230}},
+  {imgpath:'data/cameraG1_10_0000.png',style:{top:150,left:1370}},
+  {imgpath:'data/cameraG2_10_0000.png',style:{top:150,left:1140}},
+  {imgpath:'data/cameraG3_10_0000.png',style:{top:150,left:910}},
+  {imgpath:'data/cameraG4_10_0000.png',style:{top:150,left:690}},
+  {imgpath:'data/cameraG5_10_0000.png',style:{top:150,left:460}},
 ]
 
 class App extends Component {
-  render() {
-    const select = document.getElementsByClassName('select')[0]
+  constructor(){
+    super()
+    this.state = {
+      imglist:defaultimglist
+    }
+  }
 
+  setImgList(imglist){
+    if(imglist === null){
+      this.setState({imglist:defaultimglist})
+    }else{
+      this.setState({imglist})
+    }
+    const circleDiv = document.getElementsByClassName('circle')
+    for(const e of circleDiv){
+      e.classList.remove('circle')
+    }
+  }
+
+  render() {
     return (
-      <div>
-        <Controller props={{select}}/>
-        <MovingImage titleimglist={titleimglist} style={{width:230}}/>
-      </div>
+      <>
+        <Controller setImgList={this.setImgList.bind(this)}/>
+        <MovingImage imglist={this.state.imglist} style={{width:230}}/>
+      </>
     );
   }
 }
 export default App;
 
 const MovingImage = (props)=>{
-  return(<div className="imagecanvas">{props.titleimglist.map((titleimg,idx)=>{
+  return(<div className="imagecanvas">{props.imglist.map((titleimg,idx)=>{
     const top = (idx*0)%window.innerHeight
     const left = (idx*0)%window.innerWidth
     return(<MovingElement key={idx} imgsrc={titleimg.imgpath} title={`${idx+1} : ${titleimg.imgpath}`}
@@ -160,6 +177,8 @@ const MovingElement = (props)=>{
         for(const e of circleDiv){
           e.classList.remove('circle')
         }
+        circle.style.top = `${event.pageY - dragged.y + (style.width/4)}px`;
+        circle.style.left = `${event.pageX - dragged.x + (style.width/2)}px`;
         circle.classList.add('circle')
       })
       imgRef.current.addEventListener('mousemove', event=>{
@@ -179,7 +198,7 @@ const MovingElement = (props)=>{
               dragged.target.style.transform = `rotate(${rotate}deg) scaleX(${dragged.scaleX})  scaleY(${dragged.scaleY})`;
             }
           }
-          if(circle.className === 'circle'){
+          if(drag && circle.className === 'circle'){
             circle.style.top = `${event.pageY - dragged.y + (style.width/4)}px`;
             circle.style.left = `${event.pageX - dragged.x + (style.width/2)}px`;
           }
@@ -196,7 +215,7 @@ const MovingElement = (props)=>{
 
   return(
     <div>
-      <img draggable={false} ref={imgRef} className={className} src={imgsrc} style={style} title={title}/>
+      <img draggable={false} ref={imgRef} className={className} src={imgsrc} style={style} title={title} imgsrc={imgsrc}/>
       <div ref={divRef} style={{top:(style.top+(style.width/4)),left:(style.left+(style.width/2))}}></div>
     </div>
   )
