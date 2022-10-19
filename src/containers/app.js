@@ -84,7 +84,9 @@ class App extends Component {
     return (
       <>
         <Controller setImgList={this.setImgList.bind(this)}/>
-        <MovingImage imglist={this.state.imglist} style={{width:230}}/>
+        <div className='perspectivebase'>
+          <MovingImage imglist={this.state.imglist}/>
+        </div>
       </>
     );
   }
@@ -96,21 +98,23 @@ const MovingImage = (props)=>{
     const top = (idx*0)%window.innerHeight
     const left = (idx*0)%window.innerWidth
     return(<MovingElement key={idx} imgsrc={titleimg.imgpath} title={`${idx+1} : ${titleimg.imgpath}`}
-      style={{top:top,left:left,...titleimg.style,...props.style}}
-      className={props.className}/>)
+      imgStyle={props.imgStyle}  
+      style={{top:top,left:left,...props.style,...titleimg.style}}
+      className="click-and-move"/>)
   })}</div>
   )
 }
 MovingImage.defaultProps = {
-  className: "click-and-move",
-  style: {}
+  imgStyle: {width:'230px'},
+  style: {width:'230px',height:'129px'}
 }
 
 const MovingElement = (props)=>{
-  const {className, imgsrc, style, title} = props
+  const {className, imgsrc, imgStyle, style, title} = props
   let dragged = {target:undefined,x:0,y:0,degree:0,rotate:0,scaleX:1,scaleY:1}
+  const frameRef = React.useRef(undefined)
   const imgRef = React.useRef(undefined)
-  const divRef = React.useRef(undefined)
+  const circleRef = React.useRef(undefined)
 
   const mouseup = event=>{
     event.preventDefault()
@@ -129,15 +133,18 @@ const MovingElement = (props)=>{
   React.useEffect(()=>{
     if(imgRef.current !== undefined){
       imgRef.current.ondragstart = ()=>false
-      const parent = imgRef.current.parentNode
-      const circle = parent.lastElementChild
+      const circle = circleRef.current
       imgRef.current.addEventListener('mousedown',event=>{
+        let imgElement = undefined
         const targetclassName = event.target.className
         if(targetclassName.includes(className)){
-          dragged.target = event.target
+          imgElement = event.target
         }else{
-          dragged.target = event.target.closest(`.${className}`)
+          imgElement = event.target.closest(`.${className}`)
         }
+        dragged.target = imgElement.closest('.img_frame')
+        const width = parseFloat(dragged.target.style.width.match(/-{0,1}[0-9.]+/g)[0])|0
+        const height = parseFloat(dragged.target.style.height.match(/-{0,1}[0-9.]+/g)[0])|0
         dragged.x = event.pageX - dragged.target.offsetLeft
         dragged.y = event.pageY - dragged.target.offsetTop
         dragged.degree = (Math.atan2(event.pageY-(dragged.target.offsetTop+(dragged.target.clientHeight/2)),
@@ -177,8 +184,8 @@ const MovingElement = (props)=>{
         for(const e of circleDiv){
           e.classList.remove('circle')
         }
-        circle.style.top = `${event.pageY - dragged.y + (style.width/4)}px`;
-        circle.style.left = `${event.pageX - dragged.x + (style.width/2)}px`;
+        circle.style.top = `${(height/2)-5}px`;
+        circle.style.left = `${(width/2)-5}px`;
         circle.classList.add('circle')
       })
       imgRef.current.addEventListener('mousemove', event=>{
@@ -199,8 +206,10 @@ const MovingElement = (props)=>{
             }
           }
           if(drag && circle.className === 'circle'){
-            circle.style.top = `${event.pageY - dragged.y + (style.width/4)}px`;
-            circle.style.left = `${event.pageX - dragged.x + (style.width/2)}px`;
+            const width = parseFloat(dragged.target.style.width.match(/-{0,1}[0-9.]+/g)[0])|0
+            const height = parseFloat(dragged.target.style.height.match(/-{0,1}[0-9.]+/g)[0])|0
+            circle.style.top = `${(height/2)-5}px`;
+            circle.style.left = `${(width/2)-5}px`;
           }
         }
       })
@@ -214,13 +223,12 @@ const MovingElement = (props)=>{
   },[imgRef])
 
   return(
-    <div>
-      <img draggable={false} ref={imgRef} className={className} src={imgsrc} style={style} title={title} imgsrc={imgsrc}/>
-      <div ref={divRef} style={{top:(style.top+(style.width/4)),left:(style.left+(style.width/2))}}></div>
+    <div draggable={true} ref={frameRef} className="img_frame" style={{maxWidth:style.width,maxHeight:style.height,...style}} title={title}>
+      <img draggable={false} ref={imgRef} className={className} src={imgsrc} style={imgStyle}/>
+      <div ref={circleRef} style={{top:(style.height/2),left:(style.width/2)}}></div>
     </div>
   )
 }
 MovingElement.defaultProps = {
-  className: "click-and-move",
   style: {}
 }

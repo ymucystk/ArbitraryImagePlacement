@@ -5,14 +5,19 @@ export const PlacementOutput = ()=>{
         const saveData = []
         const basePathLength = window.location.href.length
         const clickAndMove = document.getElementsByClassName('click-and-move')
+  
         for(let i=0; i<clickAndMove.length; i=i+1){
+          const imgFrame = clickAndMove[i].parentNode
           saveData.push({
             imgpath:clickAndMove[i].src.slice(basePathLength),
             style:{
-              top:clickAndMove[i].style.top,
-              left:clickAndMove[i].style.left,
-              width:clickAndMove[i].style.width,
-              transform:clickAndMove[i].style.transform,
+              top:imgFrame.style.top,
+              left:imgFrame.style.left,
+              width:imgFrame.style.width,
+              height:imgFrame.style.height,
+              maxWidth:imgFrame.style.maxWidth,
+              maxHeight:imgFrame.style.maxHeight,
+              transform:imgFrame.style.transform,
             }
           })
         }

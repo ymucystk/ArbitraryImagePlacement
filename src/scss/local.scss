@@ -123,13 +123,22 @@ div.footer {
   position: fixed; 
   bottom: 8px; 
 }
+div.perspectivebase {
+  width: 100%; 
+  height: 100vh; 
+  perspective: 1000px;
+  overflow:auto;
+}
 div.imagecanvas {
   width: 100%; 
   height: 100vh; 
+  min-width: 1700px;
+  min-height: 1000px;
 }
 .click-and-move {
   cursor: pointer ;
   position: absolute;
+  overflow: hidden;
   z-index: 1000;
 }
 .drag {
@@ -148,4 +157,21 @@ div.imagecanvas {
 	height: 10px;
 	border-radius: 50%;
 	background: yellow;
+}
+
+.img_frame {
+  perspective: 100px;
+  top: 0px;
+  left: 0px;
+  position: absolute;
+  overflow: hidden;
+}
+.img_frame img {
+  height: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
