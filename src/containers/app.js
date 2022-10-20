@@ -94,7 +94,7 @@ class App extends Component {
 export default App;
 
 const MovingImage = (props)=>{
-  return(<div className="imagecanvas">{props.imglist.map((titleimg,idx)=>{
+  return(<div className="imagecanvas" style={{transform:''}}>{props.imglist.map((titleimg,idx)=>{
     const top = (idx*0)%window.innerHeight
     const left = (idx*0)%window.innerWidth
     return(<MovingElement key={idx} imgsrc={titleimg.imgpath} title={`${idx+1} : ${titleimg.imgpath}`}

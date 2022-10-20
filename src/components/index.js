@@ -3,20 +3,89 @@ import {PlacementInput} from '../components/placement-input'
 import {PlacementOutput} from '../components/placement-output'
 
 const Controller = (props)=>{
+  const [now, setNow] = React.useState(new Date())
+
+  React.useEffect(function() {
+    const intervalId = setInterval(function() {
+      setNow(new Date());
+    }, 100);
+    return function(){clearInterval(intervalId)};
+  }, [now]);
+
   return (
     <div className="app_controller">
       <div className='panel'><PlacementInput setImgList={props.setImgList}/></div>
       <div className='panel'><PlacementOutput/></div>
+      <div className='panel'><BaseTransformController/></div>
       <div className='panel'><TransformController/></div>
     </div>
   );
 }
 export default Controller
 
+const BaseTransformController = ()=>{
+  let transform = ''
+  const [rotateX,setRotateX] = useState(0)
+  const [rotateY,setRotateY] = useState(0)
+  const imagecanvas = document.getElementsByClassName('imagecanvas')[0]
+  if(imagecanvas){
+    transform = imagecanvas.style.transform
+  }
+
+  React.useEffect(()=>{
+    if(transform.includes('rotateX')){
+      const rotateX = transform.match(/rotateX\(-{0,1}[0-9.]+deg\)/g)[0]
+      const value = parseFloat(rotateX.match(/-{0,1}[0-9.]+/g)[0])
+      setRotateX(value|0)
+    }else{
+      setRotateX(0)
+    }
+    if(transform.includes('rotateY')){
+      const rotateY = transform.match(/rotateY\(-{0,1}[0-9.]+deg\)/g)[0]
+      const value = parseFloat(rotateY.match(/-{0,1}[0-9.]+/g)[0])
+      setRotateY(value|0)
+    }else{
+      setRotateY(0)
+    }
+  },[transform])
+
+  const onChangeRotateX = (e)=>{
+    const value = +e.target.value;
+    setRotateX(value)
+    imagecanvas.style.transform = `rotateX(${value}deg) rotateY(${rotateY}deg)`
+  }
+
+  const onChangeRotateY = (e)=>{
+    const value = +e.target.value;
+    setRotateY(value)
+    imagecanvas.style.transform = `rotateX(${rotateX}deg) rotateY(${value}deg)`
+  }
+
+  return (<>
+    <ul className="flex_list">
+      <li className="flex_row">Base Rotate Control</li>
+      <li className="flex_row">
+        <label htmlFor="rotateX">{`rotateX :`}</label>
+        <input type="range" value={rotateX|0}
+          min={0} max={90} step={1} onChange={onChangeRotateX}
+          className="app_input_range" id="rotateX" />
+        {`: ${rotateX|0} °`}
+      </li>
+      <li className="flex_row">
+        <label htmlFor="rotateY">{`rotateY :`}</label>
+        <input type="range" value={rotateY|0}
+          min={-90} max={90} step={1} onChange={onChangeRotateY}
+          className="app_input_range" id="rotateY" />
+        {`: ${rotateY|0} °`}
+      </li>
+    </ul>
+    </>
+  )
+}
+
 const TransformController = ()=>{
   let style = {top:'',left:''}
   let transform = ''
-  const [now, setNow] = React.useState(new Date())
   const [rotate,setRotate] = useState(0)
   const [rotateX,setRotateX] = useState(0)
   const [rotateY,setRotateY] = useState(0)
@@ -34,13 +103,6 @@ const TransformController = ()=>{
     transform = select.style.transform
   }
   const circle = document.getElementsByClassName('circle')[0]
-
-  React.useEffect(function() {
-    const intervalId = setInterval(function() {
-      setNow(new Date());
-    }, 100);
-    return function(){clearInterval(intervalId)};
-  }, [now]);
 
   React.useEffect(()=>{
     if(style.top.includes('px')){
