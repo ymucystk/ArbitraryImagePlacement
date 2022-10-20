@@ -111,7 +111,7 @@ MovingImage.defaultProps = {
 
 const MovingElement = (props)=>{
   const {className, imgsrc, imgStyle, style, title} = props
-  let dragged = {target:undefined,x:0,y:0,degree:0,rotate:0,scaleX:1,scaleY:1}
+  let dragged = {target:undefined,x:0,y:0,degree:0,rotate:0,rotateX:0,rotateY:0,scaleX:1,scaleY:1}
   const frameRef = React.useRef(undefined)
   const imgRef = React.useRef(undefined)
   const circleRef = React.useRef(undefined)
@@ -121,12 +121,12 @@ const MovingElement = (props)=>{
     const drag = document.getElementsByClassName('drag')[0]
     if(drag){
       drag.classList.remove('drag')
-      dragged = {target:undefined,x:0,y:0,degree:0,rotate:0,scaleX:1,scaleY:1}
+      dragged = {target:undefined,x:0,y:0,degree:0,rotate:0,rotateX:0,rotateY:0,scaleX:1,scaleY:1}
     }
     const rotate = document.getElementsByClassName('rotate')[0]
     if(rotate){
       rotate.classList.remove('rotate')
-      dragged = {target:undefined,x:0,y:0,degree:0,rotate:0,scaleX:1,scaleY:1}
+      dragged = {target:undefined,x:0,y:0,degree:0,rotate:0,rotateX:0,rotateY:0,scaleX:1,scaleY:1}
     }
   }
 
@@ -155,6 +155,18 @@ const MovingElement = (props)=>{
           dragged.rotate = parseFloat(rotate.match(/-{0,1}[0-9.]+/g)[0])
         }else{
           dragged.rotate = 0
+        }
+        if(transform.includes('rotateX')){
+          const rotateX = transform.match(/rotateX\(-{0,1}[0-9.]+deg\)/g)[0]
+          dragged.rotateX = parseFloat(rotateX.match(/-{0,1}[0-9.]+/g)[0])
+        }else{
+          dragged.rotateX = 0
+        }
+        if(transform.includes('rotateY')){
+          const rotateY = transform.match(/rotateY\(-{0,1}[0-9.]+deg\)/g)[0]
+          dragged.rotateY = parseFloat(rotateY.match(/-{0,1}[0-9.]+/g)[0])
+        }else{
+          dragged.rotateY = 0
         }
 
         if(transform.includes('scaleX')){
@@ -202,7 +214,8 @@ const MovingElement = (props)=>{
             event.pageX-(dragged.target.offsetLeft+(dragged.target.clientWidth/2))) * 180 / Math.PI) + 180
             if(dragged.degree !== degree){
               const rotate = (dragged.rotate - (dragged.degree - degree)) % 360
-              dragged.target.style.transform = `rotate(${rotate}deg) scaleX(${dragged.scaleX})  scaleY(${dragged.scaleY})`;
+              dragged.target.style.transform =
+              `rotate(${rotate}deg) rotateX(${dragged.rotateX}deg) rotateY(${dragged.rotateY}deg) scaleX(${dragged.scaleX}) scaleY(${dragged.scaleY})`;
             }
           }
           if(drag && circle.className === 'circle'){
