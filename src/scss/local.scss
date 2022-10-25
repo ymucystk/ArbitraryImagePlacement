@@ -164,7 +164,7 @@ div.imagecanvas {
 .img_frame {
   top: 0px;
   left: 0px;
-  position: absolute;
+  position: relative;
   overflow: hidden;
   perspective: 1500px;
 }
@@ -176,4 +176,10 @@ div.imagecanvas {
   -webkit-transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
+}
+.base_data {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

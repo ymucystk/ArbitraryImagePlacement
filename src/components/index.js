@@ -86,6 +86,8 @@ const BaseTransformController = ()=>{
 const TransformController = ()=>{
   let style = {top:'',left:''}
   let transform = ''
+  let base = undefined
+  let baseStyle = {top:'',left:''}
   const [rotate,setRotate] = useState(0)
   const [rotateX,setRotateX] = useState(0)
   const [rotateY,setRotateY] = useState(0)
@@ -101,26 +103,28 @@ const TransformController = ()=>{
   if(select){
     style = select.style
     transform = select.style.transform
+    base = select.closest('.base_data')
+    baseStyle = base.style
   }
   const circle = document.getElementsByClassName('circle')[0]
 
   React.useEffect(()=>{
-    if(style.top.includes('px')){
-      const value = parseFloat(style.top.match(/-{0,1}[0-9.]+/g)[0])
+    if(baseStyle.top.includes('px')){
+      const value = parseFloat(baseStyle.top.match(/-{0,1}[0-9.]+/g)[0])
       setTop(value|0)
     }else{
       setTop(0)
     }
-  },[style.top])
+  },[baseStyle.top])
 
   React.useEffect(()=>{
-    if(style.left.includes('px')){
-      const value = parseFloat(style.left.match(/-{0,1}[0-9.]+/g)[0])
+    if(baseStyle.left.includes('px')){
+      const value = parseFloat(baseStyle.left.match(/-{0,1}[0-9.]+/g)[0])
       setLeft(value|0)
     }else{
       setLeft(0)
     }
-  },[style.left])
+  },[baseStyle.left])
 
   React.useEffect(()=>{
     if(style.maxHeight && style.maxHeight.includes('px')){
@@ -238,14 +242,14 @@ const TransformController = ()=>{
   const onChangeTop = (e)=>{
     const value = +e.target.value;
     setTop(value)
-    select.style.top = `${value}px`
+    base.style.top = `${value}px`
     circle.style.top = `${value+(select.style.height/2)-5}px`
   }
 
   const onChangeLeft = (e)=>{
     const value = +e.target.value;
     setLeft(value)
-    select.style.left = `${value}px`
+    base.style.left = `${value}px`
     circle.style.left = `${value+(select.style.width/2)-5}px`
   }
 
