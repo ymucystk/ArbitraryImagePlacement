@@ -14,6 +14,8 @@ export const PlacementOutput = ()=>{
             style:{
               top:baseFrame.style.top,
               left:baseFrame.style.left,
+              baseWidth:baseFrame.style.width,
+              baseHeight:baseFrame.style.height,
               width:imgFrame.style.width,
               height:imgFrame.style.height,
               maxWidth:imgFrame.style.maxWidth,

@@ -106,7 +106,7 @@ const MovingImage = (props)=>{
 }
 MovingImage.defaultProps = {
   imgStyle: {width:'230px'},
-  style: {width:'230px',height:'129px'}
+  style: {baseWidth:'230px',baseHeight:'129px',width:'230px',height:'129px'}
 }
 
 const MovingElement = (props)=>{
@@ -232,9 +232,9 @@ const MovingElement = (props)=>{
     }
   },[imgRef])
 
-  const {top:baseTop, left:baseLeft,...otherStyle} = style
+  const {top:baseTop, left:baseLeft, baseWidth, baseHeight, ...otherStyle} = style
   return(
-    <div ref={baseeRef} className='base_data' style={{top:style.top,left:style.left,width:style.width,height:style.height}}>
+    <div ref={baseeRef} className='base_data' style={{top:style.top,left:style.left,width:style.baseWidth,height:style.baseHeight}}>
       <div draggable={true} ref={frameRef} className="img_frame" style={{maxWidth:style.width,maxHeight:style.height,...otherStyle}} title={title}>
         <img draggable={false} ref={imgRef} className={className} src={imgsrc} style={imgStyle}/>
         <div ref={circleRef} style={{top:(style.height/2),left:(style.width/2)}}></div>
