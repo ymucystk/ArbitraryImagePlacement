@@ -98,14 +98,14 @@ const MovingImage = (props)=>{
     const top = (idx*0)%window.innerHeight
     const left = (idx*0)%window.innerWidth
     return(<MovingElement key={idx} imgsrc={titleimg.imgpath} title={`${idx+1} : ${titleimg.imgpath}`}
-      imgStyle={props.imgStyle}  
+      imgStyle={{...props.imgStyle,...titleimg.imgStyle}}  
       style={{top:top,left:left,...props.style,...titleimg.style}}
       className="click-and-move"/>)
   })}</div>
   )
 }
 MovingImage.defaultProps = {
-  imgStyle: {width:'230px'},
+  imgStyle: {width:'230px',transform:'translate(-50%, -50%)'},
   style: {baseWidth:'230px',baseHeight:'129px',width:'230px',height:'129px'}
 }
 
@@ -188,6 +188,11 @@ const MovingElement = (props)=>{
           e.classList.remove('select')
         }
         dragged.target.classList.add('select')
+        const select_img = document.getElementsByClassName('select_img')
+        for(const e of select_img){
+          e.classList.remove('select_img')
+        }
+        imgRef.current.classList.add('select_img')
         const circleDiv = document.getElementsByClassName('circle')
         for(const e of circleDiv){
           e.classList.remove('circle')

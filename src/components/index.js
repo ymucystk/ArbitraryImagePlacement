@@ -88,6 +88,7 @@ const TransformController = ()=>{
   let transform = ''
   let base = undefined
   let baseStyle = {top:'',left:''}
+  let transform_img = ''
   const [rotate,setRotate] = useState(0)
   const [rotateX,setRotateX] = useState(0)
   const [rotateY,setRotateY] = useState(0)
@@ -99,12 +100,18 @@ const TransformController = ()=>{
   const [width,setWidth] = useState(1)
   const [maxHeight,setMaxHeight] = useState(1)
   const [maxWidth,setMaxWidth] = useState(1)
+  const [translateX,setTranslateX] = useState(0)
+  const [translateY,setTranslateY] = useState(0)
   const select = document.getElementsByClassName('select')[0]
   if(select){
     style = select.style
     transform = select.style.transform
     base = select.closest('.base_data')
     baseStyle = base.style
+  }
+  const select_img = document.getElementsByClassName('select_img')[0]
+  if(select_img){
+    transform_img = select_img.style.transform
   }
   const circle = document.getElementsByClassName('circle')[0]
 
@@ -200,6 +207,20 @@ const TransformController = ()=>{
     }
   },[transform])
 
+  React.useEffect(()=>{
+    if(transform_img.includes('translate')){
+      const translate = transform_img.match(/translate\(-{0,1}[0-9.]+%, -{0,1}[0-9.]+%\)/g)[0]
+      const parameter = translate.match(/-{0,1}[0-9.]+/g)
+      const valueX = parseFloat(parameter[0])
+      const valueY = parseFloat(parameter[1])
+      setTranslateX(valueX+50)
+      setTranslateY(valueY+50)
+    }else{
+      setTranslateX(0)
+      setTranslateY(0)
+    }
+  },[transform_img])
+
   const onChangeRotate = (e)=>{
     const value = +e.target.value;
     setRotate(value)
@@ -230,6 +251,18 @@ const TransformController = ()=>{
     setHeight(value)
     select.style.height = `${value}px`
     circle.style.top = `${(value/2)-5}px`
+  }
+
+  const onChangeTranslateX = (e)=>{
+    const value = +e.target.value;
+    setTranslateX(value)
+    select_img.style.transform = `translate(${value-50}%, ${translateY-50}%)`
+  }
+
+  const onChangeTranslateY = (e)=>{
+    const value = +e.target.value;
+    setTranslateY(value)
+    select_img.style.transform = `translate(${translateX-50}%, ${value-50}%)`
   }
 
   const onChangeScale = (e)=>{
@@ -316,6 +349,20 @@ const TransformController = ()=>{
           min={1} max={maxHeight} step={1} onChange={onChangeHeight}
           className="app_input_range" id="height" />
         {`: ${height}px`}
+      </li>
+      <li className="flex_row">
+        <label htmlFor="translateX">{`transX :`}</label>
+        <input type="range" value={translateX}
+          min={-50} max={50} step={0.2} onChange={onChangeTranslateX}
+          className="app_input_range" id="translateX" />
+        {`: ${translateX}%`}
+      </li>
+      <li className="flex_row">
+        <label htmlFor="translateY">{`transY :`}</label>
+        <input type="range" value={translateY}
+          min={-50} max={50} step={0.2} onChange={onChangeTranslateY}
+          className="app_input_range" id="translateY" />
+        {`: ${translateY}%`}
       </li>
       <li className="flex_row">
         <label htmlFor="scale">{`scale :`}</label>

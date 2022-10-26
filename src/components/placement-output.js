@@ -21,6 +21,10 @@ export const PlacementOutput = ()=>{
               maxWidth:imgFrame.style.maxWidth,
               maxHeight:imgFrame.style.maxHeight,
               transform:imgFrame.style.transform,
+            },
+            imgStyle:{
+              width:clickAndMove[i].style.width,
+              transform:clickAndMove[i].style.transform,
             }
           })
         }
