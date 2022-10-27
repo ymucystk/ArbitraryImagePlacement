@@ -143,8 +143,8 @@ const MovingElement = (props)=>{
         dragged.x = event.pageX - base.offsetLeft
         dragged.y = event.pageY - base.offsetTop
         dragged.degree = (Math.atan2(
-          (event.pageY-100)-(base.offsetTop+(frameRef.current.clientHeight/2)),
-          (event.pageX-100)-(base.offsetLeft+(frameRef.current.clientWidth/2))) * 180 / Math.PI) + 180
+          (event.pageY-100)-(base.offsetTop+(base.clientHeight/2)),
+          (event.pageX-100)-(base.offsetLeft+(base.clientWidth/2))) * 180 / Math.PI) + 180
         const transform = dragged.target.style.transform
         if(transform.includes('rotate')){
           const rotate = transform.match(/rotate\(-{0,1}[0-9.]+deg\)/g)[0]
@@ -212,8 +212,8 @@ const MovingElement = (props)=>{
           const rotate = document.getElementsByClassName('rotate')[0]
           if(rotate){
             const degree = (Math.atan2(
-              (event.pageY-100)-(base.offsetTop+(frameRef.current.clientHeight/2)),
-              (event.pageX-100)-(base.offsetLeft+(frameRef.current.clientWidth/2))) * 180 / Math.PI) + 180
+              (event.pageY-100)-(base.offsetTop+(base.clientHeight/2)),
+              (event.pageX-100)-(base.offsetLeft+(base.clientWidth/2))) * 180 / Math.PI) + 180
             if(dragged.degree !== degree){
               const rotate = (dragged.rotate - (dragged.degree - degree)) % 360
               dragged.target.style.transform =
